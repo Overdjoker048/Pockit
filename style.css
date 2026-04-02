@@ -24,7 +24,9 @@ body {
 }
 
 #card-preview {
-    width: 380px; height: 215px; border-radius: 14px;
+    width: min(520px, 100%);
+    aspect-ratio: 380 / 215;
+    border-radius: 14px;
     background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
     border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
     display: flex; justify-content: center; align-items: center;
@@ -32,8 +34,8 @@ body {
 }
 .qr-placeholder {
     position: absolute; top: 20px; left: 20px;
-    width: 60px; height: 60px; background: white;
-    padding: 5px; border-radius: 6px;
+    width: 70px; height: 70px; background: white;
+    padding: 6px; border-radius: 8px;
 }
 
 .chart-radar-wrapper {
@@ -45,11 +47,14 @@ body {
 }
 
 #card-container {
-    width: 380px; height: 215px;
-    border-radius: 14px; position: relative; overflow: hidden;
+    width: min(520px, 100%);
+    aspect-ratio: 380 / 215;
+    border-radius: 14px;
+    position: relative; overflow: hidden;
     background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
     border: 1px solid #333; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     user-select: none;
+    margin: 0 auto;
 }
 #card-background { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; }
 
@@ -88,5 +93,60 @@ input[type=number] { -moz-appearance: textfield; }
 .offer-card.active { border-color: #c9a050; background: rgba(201, 160, 80, 0.05); }
 .hidden { display: none !important; }
 
+@media (max-width: 900px) {
+    #card-preview,
+    #card-container {
+        width: min(90vw, 500px);
+    }
+    #qr-code-wrapper {
+        width: 100px;
+        height: 100px;
+        top: auto;
+        left: auto;
+        bottom: 18px;
+        right: 18px;
+    }
+    .custom-file-upload {
+        width: 100%;
+    }
+    .data-tabs {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .tab-btn {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        font-size: 14px;
+    }
+    #card-preview,
+    #card-container {
+        width: calc(100vw - 2rem);
+    }
+    #qr-code-wrapper {
+        width: 88px;
+        height: 88px;
+        bottom: 14px;
+        right: 14px;
+    }
+    .qty-stepper {
+        width: 100%;
+        gap: 0.5rem;
+    }
+    .qty-btn {
+        width: 34px;
+        height: 34px;
+    }
+    .data-tabs {
+        justify-content: center;
+    }
+    .gold-bg {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
 
 .nav-link:hover { color: #c9a050; }
