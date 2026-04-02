@@ -1,0 +1,92 @@
+body { 
+    font-family: 'Poppins', sans-serif; 
+    background-color: #050505; 
+    color: #e0e0e0; 
+    scroll-behavior: smooth; 
+    overflow-x: hidden; 
+}
+
+.font-serif {
+    font-family: 'Playfair Display', serif; 
+}
+
+.gold-text { 
+    color: #c9a050;
+}
+
+.gold-bg { 
+    background-color: #c9a050; 
+    color: #000; 
+}
+
+.hero-gradient { 
+    background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); 
+}
+
+#card-preview {
+    width: 380px; height: 215px; border-radius: 14px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    display: flex; justify-content: center; align-items: center;
+    position: relative; margin: 0 auto;
+}
+.qr-placeholder {
+    position: absolute; top: 20px; left: 20px;
+    width: 60px; height: 60px; background: white;
+    padding: 5px; border-radius: 6px;
+}
+
+.chart-radar-wrapper {
+    position: relative;
+    margin: auto;
+    height: 380px;
+    width: 100%;
+    padding: 40px;
+}
+
+#card-container {
+    width: 380px; height: 215px;
+    border-radius: 14px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid #333; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    user-select: none;
+}
+#card-background { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; }
+
+#qr-code-wrapper {
+    width: 65px; height: 65px;
+    position: absolute; top: 20px; left: 20px;
+    background: white; padding: 5px; border-radius: 6px;
+    touch-action: none; cursor: move; display: none; z-index: 20;
+}
+#qr-code-wrapper img { width: 100%; height: 100%; pointer-events: none; display: block; }
+
+#qr-code-wrapper::after { content: ""; position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; cursor: nwse-resize; background: linear-gradient(135deg, transparent 50%, #c9a050 50%); border-radius: 0 0 6px 0; }
+
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #222; transition: .4s; border-radius: 34px; border: 1px solid #444; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: #c9a050; border-color: #c9a050; }
+input:checked + .slider:before { transform: translateX(24px); background-color: #000; }
+
+.custom-file-upload { display: block; padding: 12px; cursor: pointer; background: #111; border: 1px dashed #c9a050; color: #c9a050; border-radius: 8px; text-align: center; font-size: 0.8rem; transition: 0.3s; }
+input[type="file"] { display: none; }
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+.qty-stepper { display: flex; align-items: center; justify-content: space-between; background: #000; border: 1px solid #333; border-radius: 50px; padding: 4px; height: 50px; width: 130px; }
+.qty-btn { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2rem; transition: 0.2s; cursor: pointer; }
+.qty-btn:hover { color: #c9a050; background: #111; }
+#quantity { background: transparent; color: white; text-align: center; font-weight: 600; width: 40px; outline: none; border: none; }
+
+.data-tabs { display: flex; background: #111; padding: 3px; border-radius: 10px; border: 1px solid #222; min-width: 130px; }
+.tab-btn { flex: 1; padding: 6px; font-size: 9px; font-weight: 600; border-radius: 7px; color: #666; transition: 0.3s; text-transform: uppercase; }
+.tab-btn.active { background: #c9a050; color: #000; }
+
+.offer-card { border: 1px solid #333; cursor: pointer; transition: 0.3s; border-radius: 15px; background: #0a0a0a; }
+.offer-card.active { border-color: #c9a050; background: rgba(201, 160, 80, 0.05); }
+.hidden { display: none !important; }
+
+
+.nav-link:hover { color: #c9a050; }
