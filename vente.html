@@ -15,20 +15,9 @@
             overflow-x: hidden;
         }
         #card-container {
-            width: min(520px, 100%);
-            aspect-ratio: 380 / 215;
-            min-height: 260px;
-            border-radius: 14px;
-            overflow: hidden;
             transition: transform 0.1s ease-out;
             transform-style: preserve-3d;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        @media (max-width: 640px) {
-            #card-container {
-                width: calc(100vw - 2rem);
-                min-height: 220px;
-            }
         }
     </style>
 </head>
@@ -55,10 +44,11 @@
                         </div>
                     </div>
                     <div id="qr-code-wrapper">
+                        <div class="qr-handle"></div>
                         <img id="qr-img" src="">
                     </div>
                 </div>
-                <p class="mt-8 text-[10px] text-gray-600 uppercase tracking-[0.2em]">Pincez un angle pour redimensionner • Glissez pour déplacer</p>
+                <p class="mt-8 text-[10px] text-gray-600 uppercase tracking-[0.2em]">Tirez sur le coin doré pour redimensionner • Glissez pour déplacer</p>
             </div>
 
             <div class="space-y-8" data-aos="fade-left" data-aos-duration="1000">
@@ -223,29 +213,46 @@
 
         interact('#qr-code-wrapper')
             .draggable({
+                ignoreFrom: '.qr-handle',
                 listeners: { move (e) {
                     pos.x += e.dx; pos.y += e.dy;
                     e.target.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
                 }},
                 modifiers: [ interact.modifiers.restrictRect({ restriction: '#card-container' }) ]
-            })
-            .resizable({
-                edges: { right: true, bottom: true, left: true, top: true },
-                modifiers: [
-                    interact.modifiers.aspectRatio({ ratio: 'equal' }),
-                    interact.modifiers.restrictSize({ min: { width: 40, height: 40 } }),
-                    interact.modifiers.restrictRect({ restriction: '#card-container' })
-                ],
-                listeners: { move (e) {
-                    let { x, y } = pos;
-                    e.target.style.width = e.rect.width + 'px';
-                    e.target.style.height = e.rect.height + 'px';
-                    x += e.deltaRect.left; y += e.deltaRect.top;
-                    e.target.style.transform = `translate(${x}px, ${y}px)`;
-                    Object.assign(pos, { x, y });
-                }}
             });
-            
+
+        interact('.qr-handle')
+            .draggable({
+                listeners: {
+                    start (e) {
+                        const wrapper = e.target.parentElement;
+                        e.target.dataset.startWidth = wrapper.offsetWidth;
+                        e.target.dataset.startHeight = wrapper.offsetHeight;
+                        e.target.dataset.startX = e.client.x;
+                        e.target.dataset.startY = e.client.y;
+                        e.target.classList.add('resizing');
+                    },
+                    move (e) {
+                        const wrapper = e.target.parentElement;
+                        const startWidth = parseFloat(e.target.dataset.startWidth);
+                        const dx = e.client.x - parseFloat(e.target.dataset.startX);
+                        const dy = e.client.y - parseFloat(e.target.dataset.startY);
+                        const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+                        const newSize = Math.max(40, startWidth + delta);
+                        wrapper.style.width = `${newSize}px`;
+                        wrapper.style.height = `${newSize}px`;
+                    },
+                    end (e) {
+                        e.target.classList.remove('resizing');
+                        delete e.target.dataset.startWidth;
+                        delete e.target.dataset.startHeight;
+                        delete e.target.dataset.startX;
+                        delete e.target.dataset.startY;
+                    }
+                },
+                modifiers: [ interact.modifiers.restrictRect({ restriction: '#card-container' }) ]
+            });
+        
         updateUI();
     </script>
 </body>
