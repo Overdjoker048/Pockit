@@ -133,16 +133,32 @@
 
         function toggleMenu() {
             const menu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
             if (menu) {
                 menu.classList.toggle('show');
+                if (hamburger) {
+                    hamburger.innerHTML = menu.classList.contains('show') ? '✕' : '☰';
+                }
+                document.body.style.overflow = menu.classList.contains('show') ? 'hidden' : 'auto';
             }
         }
 
         document.addEventListener('click', (e) => {
             const menu = document.querySelector('.nav-menu');
             const hamburger = document.querySelector('.hamburger');
-            if (menu && hamburger && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+            if (!menu || !hamburger) return;
+
+            if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
                 menu.classList.remove('show');
+                hamburger.innerHTML = '☰';
+                document.body.style.overflow = 'auto';
+                return;
+            }
+
+            if (e.target === menu) {
+                menu.classList.remove('show');
+                hamburger.innerHTML = '☰';
+                document.body.style.overflow = 'auto';
             }
         });
 
