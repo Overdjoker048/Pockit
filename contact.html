@@ -61,8 +61,19 @@
         });
 
         function toggleMenu() {
-            document.querySelector('.nav-menu').classList.toggle('show');
+            const menu = document.querySelector('.nav-menu');
+            if (menu) {
+                menu.classList.toggle('show');
+            }
         }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (menu && hamburger && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>

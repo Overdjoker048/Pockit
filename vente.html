@@ -131,6 +131,21 @@
     <script>
         AOS.init({ once: true });
 
+        function toggleMenu() {
+            const menu = document.querySelector('.nav-menu');
+            if (menu) {
+                menu.classList.toggle('show');
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (menu && hamburger && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
         document.addEventListener('mouseleave', () => {
             card.style.transition = "all 0.5s ease";
             card.style.transform = `rotateY(0deg) rotateX(0deg)`;
@@ -253,10 +268,6 @@
                 },
                 modifiers: [ interact.modifiers.restrictRect({ restriction: '#card-container' }) ]
             });
-        
-        function toggleMenu() {
-            document.querySelector('.nav-menu').classList.toggle('show');
-        }
         
         updateUI();
     </script>

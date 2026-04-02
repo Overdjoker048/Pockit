@@ -99,6 +99,21 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.nav-menu');
+            if (menu) {
+                menu.classList.toggle('show');
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (menu && hamburger && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
         const ctxMat = document.getElementById('chartMateriaux').getContext('2d');
         new Chart(ctxMat, {
             type: 'bar',
@@ -181,10 +196,6 @@
                 }
             }
         });
-
-        function toggleMenu() {
-            document.querySelector('.nav-menu').classList.toggle('show');
-        }
 
         ScrollReveal().reveal('.reveal', { delay: 200, distance: '30px', duration: 1000, origin: 'bottom', interval: 150 });
     </script>
