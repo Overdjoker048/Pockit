@@ -196,6 +196,13 @@ input[type=number] { -moz-appearance: textfield; }
         padding-left: 1rem;
         padding-right: 1rem;
     }
+    section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .grid {
+        gap: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -206,10 +213,11 @@ input[type=number] { -moz-appearance: textfield; }
         top: 100%;
         left: 0;
         right: 0;
-        background: black;
+        background: #1a1a1a;
         padding: 1rem;
         border-top: 1px solid #333;
         display: none;
+        z-index: 40;
     }
     .nav-menu.show {
         display: flex;
@@ -241,3 +249,10 @@ input[type=number] { -moz-appearance: textfield; }
 }
 
 .nav-link:hover { color: #c9a050; }
+
+.hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
