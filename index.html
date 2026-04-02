@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spécifications Techniques | POCKIT NFC</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #050505; color: #e0e0e0; scroll-behavior: smooth; overflow-x: hidden; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .gold-text { color: #c9a050; }
+        .gold-bg { background-color: #c9a050; color: #000; }
+        .hero-gradient { background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); }
+        
+        #card-preview {
+            width: 380px; height: 215px; border-radius: 14px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            display: flex; justify-content: center; align-items: center;
+            position: relative; margin: 0 auto;
+        }
+        .qr-placeholder {
+            position: absolute; top: 20px; left: 20px;
+            width: 60px; height: 60px; background: white;
+            padding: 5px; border-radius: 6px;
+        }
+
+        /* Conteneur adaptatif pour le radar afin d'éviter les textes coupés */
+        .chart-radar-wrapper {
+            position: relative;
+            margin: auto;
+            height: 380px;
+            width: 100%;
+            padding: 40px; /* Espace crucial pour les labels extérieurs */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="flex justify-between items-center p-6 border-b border-gray-900 sticky top-0 bg-black/90 backdrop-blur-sm z-50">
+        <a href="index.html" class="text-3xl font-serif font-bold tracking-widest gold-text">POCKIT</a>
+        <div class="flex space-x-8 text-sm uppercase tracking-wider items-center">
+            <a href="index.html" class="nav-link gold-text">Accueil</a>
+            <a href="vente.html" class="nav-link">Boutique</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="vente.html" class="gold-bg px-6 py-2 rounded-full font-bold text-xs uppercase">Créer ma carte</a>
+        </div>
+    </nav>
+
+    <section class="py-20 px-6 hero-gradient text-center">
+        <h1 class="text-5xl md:text-7xl font-serif mb-8 reveal">L'Ingénierie du <span class="gold-text italic">Prestige</span></h1>
+        <div id="card-preview" class="reveal">
+            <div class="qr-placeholder">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=POCKIT" alt="QR Code">
+            </div>
+            <div class="text-center">
+                <h3 class="font-serif italic text-2xl gold-text">POCKIT NFC</h3>
+                <p class="text-[9px] tracking-[0.4em] uppercase text-gray-500 mt-2">Polycarbonate Premium</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 border-t border-gray-900">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <h2 class="text-3xl font-serif gold-text mb-6">Polycarbonate vs Standards</h2>
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    Le <b>Polycarbonate (PC)</b> se distingue par un rapport Solidité/Poids exceptionnel. Là où le PVC ou le PET peuvent subir des micro-déformations mécaniques, le PC protège l'intégrité de l'antenne interne contre la torsion.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-zinc-900 border border-gray-800 flex items-center justify-center gold-text">🔨</div>
+                        <div>
+                            <h4 class="text-sm font-bold uppercase tracking-wider">Solidité Impact</h4>
+                            <p class="text-xs text-gray-500">Capacité à absorber les chocs sans rupture.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-lg bg-zinc-900 border border-gray-800 flex items-center justify-center gold-text">📐</div>
+                        <div>
+                            <h4 class="text-sm font-bold uppercase tracking-wider">Rigidité Structurelle</h4>
+                            <p class="text-xs text-gray-500">Stabilité de la forme face à la flexion prolongée.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-zinc-900/50 p-8 rounded-3xl border border-gray-800 reveal">
+                <h3 class="text-center text-xs uppercase tracking-widest mb-6 text-gray-400">Comparatif Physique</h3>
+                <canvas id="chartMateriaux"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 bg-zinc-950 border-t border-gray-900">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="bg-zinc-900/50 rounded-3xl border border-gray-800 order-2 md:order-1 reveal">
+                <div class="chart-radar-wrapper">
+                    <canvas id="chartPuce"></canvas>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 reveal">
+                <h2 class="text-3xl font-serif gold-text mb-6">Capacité et Polyvalence</h2>
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    La norme classique 144 octets est souvent un goulot d'étranglement. Notre puce de <b>1 Ko (1024 octets)</b> est conçue pour les utilisateurs intensifs, offrant la <b>polyvalence</b> nécessaire pour centraliser votre vie numérique.
+                </p>
+                <div class="space-y-6">
+                    <div class="p-4 bg-black border border-gray-800 rounded-xl">
+                        <h4 class="gold-text font-bold text-sm uppercase flex items-center">
+                            <span class="mr-2">🏠</span> Multi-stockage d'accès
+                        </h4>
+                        <p class="text-xs text-gray-500 mt-1">Gérez simultanément vos <b>clés d'accès domicile</b>, bureau et parking sur un seul support physique sécurisé.</p>
+                    </div>
+                    <div class="p-4 bg-black border border-gray-800 rounded-xl">
+                        <h4 class="gold-text font-bold text-sm uppercase flex items-center">
+                            <span class="mr-2">📇</span> Contacte vCard Étendu
+                        </h4>
+                        <p class="text-xs text-gray-500 mt-1">Enregistrez un profil riche incluant <b>photo, bio, et liens multiples</b> là où les puces standards saturent immédiatement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-gray-700 text-[10px] uppercase tracking-[0.4em]">
+        POCKIT — ARCHIVE TECHNIQUE — 2026
+    </footer>
+
+    <script>
+        // GRAPHIQUE MATÉRIAUX (INCHANGÉ)
+        const ctxMat = document.getElementById('chartMateriaux').getContext('2d');
+        new Chart(ctxMat, {
+            type: 'bar',
+            data: {
+                labels: ['PVC', 'PLA', 'PET', 'PC (POCKIT)'],
+                datasets: [{
+                    label: 'Solidité',
+                    data: [4, 3, 6, 10],
+                    backgroundColor: '#c9a050',
+                    borderRadius: 5
+                }, {
+                    label: 'Rigidité',
+                    data: [6, 8, 5, 9.5],
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    borderColor: 'rgba(255,255,255,0.2)',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#222' }, ticks: { color: '#666' } },
+                    x: { grid: { display: false }, ticks: { color: '#fff' } }
+                },
+                plugins: { legend: { labels: { color: '#fff', font: { size: 10 } } } }
+            }
+        });
+
+        // GRAPHIQUE PUCE (RÉALISTE ET VISIBLE)
+        const ctxPuce = document.getElementById('chartPuce').getContext('2d');
+        new Chart(ctxPuce, {
+            type: 'radar',
+            data: {
+                labels: [
+                    ['Stabilité de', 'réécriture'], 
+                    ['Stockage de', 'contacte'], 
+                    ['Clés d\'accès', 'multiples'], 
+                    'Polyvalence', 
+                    ['Sécurité des', 'données']
+                ],
+                datasets: [{
+                    label: 'POCKIT (1 Ko)',
+                    data: [96, 100, 95, 100, 92],
+                    borderColor: '#c9a050',
+                    backgroundColor: 'rgba(201, 160, 80, 0.2)',
+                    pointBackgroundColor: '#c9a050',
+                    borderWidth: 2
+                }, {
+                    label: 'Norme (144 o)',
+                    data: [92, 45, 20, 40, 85],
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    backgroundColor: 'transparent',
+                    pointBackgroundColor: '#555',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        grid: { color: '#333' },
+                        angleLines: { color: '#333' },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false },
+                        pointLabels: { 
+                            color: '#fff', 
+                            font: { size: 10 },
+                            padding: 20, // Évite le chevauchement
+                            centerPointLabels: true
+                        }
+                    }
+                },
+                plugins: { 
+                    legend: { 
+                        position: 'bottom', 
+                        labels: { color: '#fff', padding: 20 } 
+                    } 
+                }
+            }
+        });
+
+        ScrollReveal().reveal('.reveal', { delay: 200, distance: '30px', duration: 1000, origin: 'bottom', interval: 150 });
+    </script>
+</body>
+</html>

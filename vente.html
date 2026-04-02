@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POCKIT NFC | Personnalisation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #050505; color: #e0e0e0; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .gold-text { color: #c9a050; }
+        .gold-bg { background-color: #c9a050; color: #000; }
+        
+        #card-container {
+            width: 380px; height: 215px;
+            border-radius: 14px; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 1px solid #333; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            user-select: none;
+        }
+        #card-background { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; }
+
+        #qr-code-wrapper {
+            width: 65px; height: 65px;
+            position: absolute; top: 20px; left: 20px;
+            background: white; padding: 5px; border-radius: 6px;
+            touch-action: none; cursor: move; display: none; z-index: 20;
+        }
+        #qr-code-wrapper img { width: 100%; height: 100%; pointer-events: none; display: block; }
+        
+        /* Coin de redimensionnement */
+        #qr-code-wrapper::after { content: ""; position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; cursor: nwse-resize; background: linear-gradient(135deg, transparent 50%, #c9a050 50%); border-radius: 0 0 6px 0; }
+
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #222; transition: .4s; border-radius: 34px; border: 1px solid #444; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #c9a050; border-color: #c9a050; }
+        input:checked + .slider:before { transform: translateX(24px); background-color: #000; }
+
+        .custom-file-upload { display: block; padding: 12px; cursor: pointer; background: #111; border: 1px dashed #c9a050; color: #c9a050; border-radius: 8px; text-align: center; font-size: 0.8rem; transition: 0.3s; }
+        input[type="file"] { display: none; }
+
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        .qty-stepper { display: flex; align-items: center; justify-content: space-between; background: #000; border: 1px solid #333; border-radius: 50px; padding: 4px; height: 50px; width: 130px; }
+        .qty-btn { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2rem; transition: 0.2s; cursor: pointer; }
+        .qty-btn:hover { color: #c9a050; background: #111; }
+        #quantity { background: transparent; color: white; text-align: center; font-weight: 600; width: 40px; outline: none; border: none; }
+
+        .data-tabs { display: flex; background: #111; padding: 3px; border-radius: 10px; border: 1px solid #222; min-width: 130px; }
+        .tab-btn { flex: 1; padding: 6px; font-size: 9px; font-weight: 600; border-radius: 7px; color: #666; transition: 0.3s; text-transform: uppercase; }
+        .tab-btn.active { background: #c9a050; color: #000; }
+
+        .offer-card { border: 1px solid #333; cursor: pointer; transition: 0.3s; border-radius: 15px; background: #0a0a0a; }
+        .offer-card.active { border-color: #c9a050; background: rgba(201, 160, 80, 0.05); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <nav class="flex justify-between items-center p-6 border-b border-gray-900 sticky top-0 bg-black/90 backdrop-blur-sm z-50">
+        <a href="index.html" class="text-3xl font-serif font-bold tracking-widest gold-text">POCKIT</a>
+        <div class="flex space-x-8 text-sm uppercase tracking-wider items-center">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="vente.html" class="nav-link gold-text">Boutique</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="vente.html" class="gold-bg px-6 py-2 rounded-full font-bold text-xs uppercase">Créer ma carte</a>
+        </div>
+    </nav>
+
+    <section class="py-12 px-6">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
+            
+            <div class="lg:sticky lg:top-32 self-start flex flex-col items-center">
+                <div id="card-container">
+                    <div id="card-background">
+                        <div id="default-text" class="text-center pointer-events-none transition-opacity">
+                            <h3 class="font-serif italic text-2xl gold-text">POCKIT NFC</h3>
+                            <p class="text-[9px] tracking-[0.4em] uppercase text-gray-500 mt-2">Polycarbonate Premium</p>
+                        </div>
+                    </div>
+                    <div id="qr-code-wrapper">
+                        <img id="qr-img" src="">
+                    </div>
+                </div>
+                <p class="mt-8 text-[10px] text-gray-600 uppercase tracking-[0.2em]">Pincez un angle pour redimensionner • Glissez pour déplacer</p>
+            </div>
+
+            <div class="space-y-8">
+                <h1 class="text-4xl font-serif">Configuration</h1>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div id="offer-solo" class="offer-card active p-5 text-center" onclick="setOffer('solo')">
+                        <p class="text-[10px] text-gray-500 uppercase mb-1">Plan Individuel</p>
+                        <p class="text-lg font-bold">10,00€ HT</p>
+                        <span class="text-[9px] text-gray-400">Prix à l'unité</span>
+                    </div>
+                    <div id="offer-pro" class="offer-card p-5 text-center" onclick="setOffer('pro')">
+                        <p class="text-[10px] text-gray-500 uppercase mb-1">Plan Professionnel</p>
+                        <p class="text-lg font-bold">8,00€ HT</p>
+                        <span class="text-[9px] text-gray-400">Dès 1000 exemplaires</span>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-900/40 p-8 rounded-3xl border border-gray-800 space-y-8">
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-gray-500 mb-3 tracking-widest text-center">Visuel de la carte</label>
+                        <label class="custom-file-upload">
+                            <input type="file" id="image-upload" accept="image/*">
+                            <span>📷 CHARGER MON DESIGN</span>
+                        </label>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between p-4 bg-black/20 rounded-2xl border border-gray-800/50">
+                            <label class="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Afficher le QR Code</label>
+                            <label class="switch">
+                                <input type="checkbox" id="enable-qr">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <hr class="border-gray-800">
+                        <div class="space-y-3">
+                            <label class="block text-[10px] uppercase font-bold text-gray-500 tracking-widest text-center">Contenu de la carte (NFC)</label>
+                            <div class="flex gap-4">
+                                <div class="data-tabs">
+                                    <button class="tab-btn active" id="btn-url" onclick="switchData('url')">Lien</button>
+                                    <button class="tab-btn" id="btn-file" onclick="switchData('file')">Fichier</button>
+                                </div>
+                                <div class="flex-1">
+                                    <input type="url" id="nfc-url" placeholder="https://votre-lien.com" class="w-full bg-black border border-gray-800 h-[42px] px-4 rounded-xl focus:border-yellow-600 outline-none text-xs transition-all">
+                                    <div id="nfc-file-box" class="hidden">
+                                        <label class="custom-file-upload !border-gray-800 !text-gray-500 !py-2 !text-[9px]">
+                                            <input type="file" id="nfc-file-input">
+                                            <span id="file-name">📎 MAX 1 KO (VCF, PDF...)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-800">
+
+                    <div class="flex items-center justify-between">
+                        <label class="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Quantité finale</label>
+                        <div class="qty-stepper">
+                            <button onclick="changeQty(-1)" class="qty-btn">−</button>
+                            <input type="number" id="quantity" value="1" min="1" oninput="updateUI()">
+                            <button onclick="changeQty(1)" class="qty-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-zinc-900 rounded-3xl border border-gray-800 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] text-gray-500 uppercase">Total HT</p>
+                        <p id="total-price" class="text-4xl font-bold gold-text">10,00 €</p>
+                    </div>
+                    <button class="gold-bg px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-[0.2em] hover:scale-105 transition">Commander</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const qtyInput = document.getElementById('quantity');
+        const totalPriceEl = document.getElementById('total-price');
+        const qrWrapper = document.getElementById('qr-code-wrapper');
+        const qrImg = document.getElementById('qr-img');
+        const nfcUrl = document.getElementById('nfc-url');
+        const nfcFileInput = document.getElementById('nfc-file-input');
+
+        let pos = { x: 0, y: 0 };
+
+        function changeQty(d) {
+            qtyInput.value = Math.max(1, (parseInt(qtyInput.value) || 1) + d);
+            updateUI();
+        }
+
+        function updateUI() {
+            let q = parseInt(qtyInput.value) || 1;
+            const isPro = q >= 1000;
+            document.getElementById('offer-solo').classList.toggle('active', !isPro);
+            document.getElementById('offer-pro').classList.toggle('active', isPro);
+            totalPriceEl.innerText = (q * (isPro ? 8 : 10)).toLocaleString('fr-FR') + ",00 €";
+        }
+
+        function setOffer(t) {
+            qtyInput.value = (t === 'pro' ? 1000 : 1);
+            updateUI();
+        }
+
+        function switchData(type) {
+            document.getElementById('btn-url').classList.toggle('active', type === 'url');
+            document.getElementById('btn-file').classList.toggle('active', type === 'file');
+            nfcUrl.classList.toggle('hidden', type === 'file');
+            document.getElementById('nfc-file-box').classList.toggle('hidden', type === 'url');
+            updateQR();
+        }
+
+        function updateQR() {
+            let data = nfcUrl.value || "https://POCKIT-nfc.com";
+            // Si le mode fichier est actif, on pourrait encoder un identifiant de fichier ou le nom
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(data)}&margin=10`;
+        }
+        
+        nfcUrl.addEventListener('input', updateQR);
+
+        nfcFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 1024) {
+                    document.getElementById('file-name').innerText = "❌ TROP LOURD";
+                    nfcFileInput.value = "";
+                } else {
+                    document.getElementById('file-name').innerText = file.name;
+                    updateQR();
+                }
+            }
+        });
+
+        document.getElementById('image-upload').addEventListener('change', function(e) {
+            const f = e.target.files[0];
+            if (f) {
+                const r = new FileReader();
+                r.onload = ev => {
+                    document.getElementById('card-background').style.backgroundImage = `url('${ev.target.result}')`;
+                    document.getElementById('default-text').style.opacity = '0';
+                };
+                r.readAsDataURL(f);
+            }
+        });
+
+        document.getElementById('enable-qr').addEventListener('change', function() {
+            qrWrapper.style.display = this.checked ? 'block' : 'none';
+            if(this.checked) updateQR();
+        });
+
+        interact('#qr-code-wrapper')
+            .draggable({
+                listeners: { move (e) {
+                    pos.x += e.dx; pos.y += e.dy;
+                    e.target.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+                }},
+                modifiers: [ interact.modifiers.restrictRect({ restriction: '#card-container' }) ]
+            })
+            .resizable({
+                edges: { right: true, bottom: true, left: true, top: true },
+                modifiers: [
+                    interact.modifiers.aspectRatio({ ratio: 'equal' }),
+                    interact.modifiers.restrictSize({ min: { width: 40, height: 40 } }),
+                    interact.modifiers.restrictRect({ restriction: '#card-container' })
+                ],
+                listeners: { move (e) {
+                    let { x, y } = pos;
+                    e.target.style.width = e.rect.width + 'px';
+                    e.target.style.height = e.rect.height + 'px';
+                    x += e.deltaRect.left; y += e.deltaRect.top;
+                    e.target.style.transform = `translate(${x}px, ${y}px)`;
+                    Object.assign(pos, { x, y });
+                }}
+            });
+            
+        updateUI();
+    </script>
+</body>
+</html>
