@@ -198,4 +198,46 @@ input[type=number] { -moz-appearance: textfield; }
     }
 }
 
+@media (max-width: 480px) {
+    .nav-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: black;
+        padding: 1rem;
+        border-top: 1px solid #333;
+        display: none;
+    }
+    .nav-menu.show {
+        display: flex;
+    }
+    .nav-link {
+        margin-bottom: 0.5rem;
+    }
+    .hero-gradient h1 {
+        font-size: 2.5rem;
+    }
+    #card-preview,
+    #card-container {
+        width: calc(100vw - 1rem);
+        min-height: 200px;
+    }
+    .chart-radar-wrapper {
+        height: 300px;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-menu {
+        display: none;
+    }
+    .nav-menu.show {
+        display: flex;
+    }
+}
+
 .nav-link:hover { color: #c9a050; }
