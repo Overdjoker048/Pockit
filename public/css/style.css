@@ -108,6 +108,74 @@ nav ul li .btn:hover {
     color: var(--bg);
 }
 
+/* HOME HEADER */
+
+.heroHeader {
+    background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+    margin-top: 81px;
+    padding: 10rem 1.5rem;
+    text-align: center;
+}
+
+.heroHeader h1 {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+    line-height: 1;
+    font-family: var(--fontPlayfairDisplay);
+}
+
+.heroHeader h1 span {
+    color: var(--goldText);
+    font-style: italic;
+}
+
+.heroHeader .cardPreview {
+    width: min(90vw, 520px);
+    max-width: 100%;
+    aspect-ratio: 380 / 215;
+    height: auto;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid #333;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.heroHeader .cardPreview .content {
+    text-align: center;
+}
+
+.heroHeader .cardPreview .content h3 {
+    font-family: var(--fontPlayfairDisplay);
+    color: var(--goldText);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-style: italic;
+}
+
+.heroHeader .cardPreview .content p {
+    font-size: 11px;
+    letter-spacing: 0.1rem;
+    margin-top: 0.5rem;
+    color: #6B7280;
+    text-transform: uppercase;
+    color: 9px;
+}
+
+/* RESPONSIVE */
+
+@media screen and (min-width: 768px) {
+    .heroHeader h1 {
+        font-size: 4.5rem;
+        line-height: 1;
+    }
+}
+
 @media screen and (max-width: 650px) {
     .headerBuger {
         position: relative;
