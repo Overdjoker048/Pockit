@@ -7,6 +7,8 @@ class Router {
             switch ($_GET['page']) {
                 case 'home' :
                     return './view/home.php';
+                case 'contact' :
+                    return './view/contact.php';
 
                 default :
                     return './view/error/404.php';
