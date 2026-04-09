@@ -67,7 +67,7 @@ new Chart(ctxPuce, {
                 pointLabels: {
                     color: '#fff',
                     font: { size: 10 },
-                    padding: 20, // Évite le chevauchement
+                    padding: 20,
                     centerPointLabels: true
                 }
             }
@@ -80,5 +80,3 @@ new Chart(ctxPuce, {
         }
     }
 });
-
-ScrollReveal().reveal('.reveal', { delay: 200, distance: '30px', duration: 1000, origin: 'bottom', interval: 150 });
