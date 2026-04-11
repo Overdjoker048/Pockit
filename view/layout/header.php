@@ -7,7 +7,7 @@
         <ul class="sidebar">
             <li><a class="<?= ($_GET['page'] ?? 'home') === 'home' ? 'pageActive' : '' ?>" href="./index.php?page=home">ACCUEIL</a></li>
             <li><a class="<?= ($_GET['page'] ?? 'home') === 'contact' ? 'pageActive' : '' ?>" href="./index.php?page=contact">CONTACT</a></li>
-            <li><a class="btn" href="">SE CONNECTER</a></li>
+            <li><a class="btn" href="./index.php?page=login">SE CONNECTER</a></li>
         </ul>
     </nav>
 </header>

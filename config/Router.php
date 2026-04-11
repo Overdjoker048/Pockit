@@ -10,6 +10,17 @@ class Router {
                 case 'contact' :
                     return './view/contact.php';
 
+                // Authentication
+
+                case 'login' :
+                    return './view/authentication/login.php';
+                
+                case 'register' :
+                    return './view/authentication/register.php';
+
+                case 'logout' :
+                    return './view/authentication/logout.php';
+
                 default :
                     return './view/error/404.php';
             }
