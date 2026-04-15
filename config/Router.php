@@ -13,10 +13,14 @@ class Router {
                 // Authentication
 
                 case 'login' :
-                    return './view/authentication/login.php';
+                    $controller = new UsersController();
+                    $controller->login();
+                    return null;
                 
                 case 'register' :
-                    return './view/authentication/register.php';
+                    $controller = new UsersController();
+                    $controller->register();
+                    return null;
 
                 case 'logout' :
                     return './view/authentication/logout.php';

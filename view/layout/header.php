@@ -7,7 +7,12 @@
         <ul class="sidebar">
             <li><a class="<?= ($_GET['page'] ?? 'home') === 'home' ? 'pageActive' : '' ?>" href="./index.php?page=home">ACCUEIL</a></li>
             <li><a class="<?= ($_GET['page'] ?? 'home') === 'contact' ? 'pageActive' : '' ?>" href="./index.php?page=contact">CONTACT</a></li>
-            <li><a class="btn" href="./index.php?page=login">SE CONNECTER</a></li>
+            <?php if (isset($_SESSION['email'])) : ?>
+                <p><?= htmlspecialchars($_SESSION['name']) ?></p>
+                <a href="./index.php?page=logout">Déconnexion</a>
+            <?php else : ?>
+                <li><a class="btn" href="./index.php?page=login">SE CONNECTER</a></li>
+            <?php endif ?>
         </ul>
     </nav>
 </header>

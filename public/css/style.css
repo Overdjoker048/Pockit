@@ -463,6 +463,25 @@ nav ul li .btn:hover {
     outline: 1px solid var(--goldText);
 }
 
+.auth form .passwordSection {
+    position: relative;
+}
+
+.auth form .passwordSection svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 54px;
+    padding: 1rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.auth form .passwordSection svg:hover {
+    color: var(--goldText);
+}
+
 .auth form .btnSection {
     display: flex;
     flex-direction: column;
@@ -496,6 +515,14 @@ nav ul li .btn:hover {
 
 .auth form .btnSection span {
     color: var(--goldText);
+}
+
+.message__error {
+    color: red;
+}
+
+.message__success {
+    color: green;
 }
 
 /* FOOTER */
